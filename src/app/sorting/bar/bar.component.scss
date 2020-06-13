@@ -1,0 +1,11 @@
+@mixin random-bgr(){
+    background-color: rgb(random(255), random(255), random(255));
+}
+
+.bar {
+    height: 20%;
+    margin: 2px;
+    text-align: center;
+    line-height: 75px;
+    @include random-bgr();
+}

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { SortingRoutingModule } from './sorting-routing.module';
 import { BubblesortComponent } from './bubblesort/bubblesort.component';
 import { SharedModule } from '../shared/shared.module';
-import { BarsComponent } from './bars/bars.component';
+import { BarsComponent } from './bar/bar.component';
 
 
 @NgModule({

@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
+import { Bar } from '../bar/bar.model';
 
 @Component({
   selector: 'app-bubblesort',
   templateUrl: './bubblesort.component.html',
   styleUrls: ['./bubblesort.component.scss']
 })
-export class BubblesortComponent implements OnInit {
+export class BubblesortComponent implements AfterViewInit {
 
-  public bars = Array(10).fill(null);
+  public bars: Bar[] = [];
 
-  constructor() { }
+  constructor() {
+    for (let i = 0; i < 100; i++) {
+      this.bars.push(new Bar());
+    }
+  }
 
-  ngOnInit() {
+  ngAfterViewInit() {
+
   }
 
 }

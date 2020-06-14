@@ -8,7 +8,7 @@
         [opened]="false">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-        <button mat-raised-button (click)="sort()">SORT</button>
+        <button mat-raised-button (click)="sort(); drawer.close();">SORT</button>
         <a mat-list-item routerLink="/" (click)="drawer.close()">Home</a>
         <a mat-list-item routerLink="/sorting/bubblesort" (click)="drawer.close()">BubbleSort</a>
         <a mat-list-item routerLink="/sorting/insertionsort" (click)="drawer.close()">InsertionSort</a>
@@ -28,7 +28,7 @@
 
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <span class="logo" routerLink="/">Steven Finley</span>
+        <span class="logo" routerLink="/">Sorting Examples</span>
 
         <span class="fill-space"></span>
         <div *ngIf="!(isHandset$ | async)">
@@ -44,11 +44,28 @@
         </button>
 
         <mat-menu #menu="matMenu">
-            <a mat-menu-item>
-                <i>💬</i>
-                <span>Demo</span>
-            </a>
-            </mat-menu>
+            <div mat-menu-item>
+                <label>Bars</label>
+                <mat-slider
+                    tickInterval="5"
+                    min="5"
+                    max="100"
+                    [value]="barsValue"
+                    (input)="barsValueChanged($event)">
+                </mat-slider>
+            </div>
+            <div mat-menu-item>
+                <label>Speed</label>
+                <mat-slider
+                    tickInterval="1"
+                    min="1"
+                    max="100"
+                    invert="true"
+                    [value]="speedValue"
+                    (input)="speedValueChanged($event)">
+                </mat-slider>
+            </div>
+        </mat-menu>
     </mat-toolbar>
 
     <!-- TRANSCLUSION -->

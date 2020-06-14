@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Bar } from '../bar/bar.model';
 import { SnackService } from 'src/app/services/snack.service';
 import { AllSorted } from '../allsorted.interface';
@@ -9,18 +9,28 @@ import { SortService } from 'src/app/services/sort.service';
     templateUrl: './bubblesort.component.html',
     styleUrls: ['./bubblesort.component.scss']
 })
-export class BubblesortComponent implements OnInit, AllSorted {
+export class BubblesortComponent implements OnInit, OnDestroy, AllSorted {
 
     bars: Bar[] = [];
+    speed = 0;
+    cancelSort = true;
 
-    constructor(private snackService: SnackService, private sortService: SortService) {}
+    constructor(private snackService: SnackService, private sortService: SortService) { }
 
     ngOnInit(): void {
-        for (let i = 0; i < 50; i++) {
-            this.bars.push(new Bar());
-        }
+        this.sortService.barsChange$.subscribe(bars => {
+            this.bars = [];
+            for (let i = 0; i < bars; i++) {
+                this.bars.push(new Bar());
+            }
+        });
+
+        this.sortService.speedChange$.subscribe(speed => {
+            console.log(speed);
+            this.speed = speed;
+        });
+
         this.sortService.sortEvent.subscribe((bool: boolean) => {
-            console.log('sort');
             if (bool) {
                 this.sort();
             }
@@ -28,17 +38,18 @@ export class BubblesortComponent implements OnInit, AllSorted {
     }
 
     async sort() {
+        this.cancelSort = false;
         const startTime = Date.now();
 
         const n = this.bars.length;
-        const iterator = n;
         for (let i = 0; i < n - 1; i++) {
             for (let j = 0; j < n - i - 1; j++) {
+                if (this.cancelSort) { break; }
                 if (this.bars[j].value > this.bars[j + 1].value) {
                     await new Promise(resolve => setTimeout(() => {
                         this.swap(this.bars, j, j + 1);
                         resolve();
-                    }, 10));
+                    }, this.speed));
                 }
                 if (j === n - i - 2) {
                     this.bars[j + 1].sorted = 'initial';
@@ -66,4 +77,11 @@ export class BubblesortComponent implements OnInit, AllSorted {
             bar.sorted = 'final' ;
         }
     }
+
+    ngOnDestroy(): void {
+        // Called once, before the instance is destroyed.
+        // Add 'implements OnDestroy' to the class.
+
+    }
+
 }

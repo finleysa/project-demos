@@ -13,15 +13,24 @@ styleUrls: ['./insertionsort.component.scss']
 export class InsertionsortComponent implements OnInit, AllSorted {
 
     bars: Bar[] = [];
+    speed = 0;
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
     ngOnInit() {
-        for (let i = 0; i < 50; i++) {
-            this.bars.push(new Bar());
-        }
-        this.sortService.sortEvent.subscribe((val: boolean) => {
-            if (val) {
+        this.sortService.barsChange$.subscribe(bars => {
+            this.bars = [];
+            for (let i = 0; i < bars; i++) {
+                this.bars.push(new Bar());
+            }
+        });
+
+        this.sortService.speedChange$.subscribe(speed => {
+            this.speed = speed;
+        });
+
+        this.sortService.sortEvent.subscribe((bool: boolean) => {
+            if (bool) {
                 this.sort();
             }
         });
@@ -41,7 +50,7 @@ export class InsertionsortComponent implements OnInit, AllSorted {
                         this.bars[j + 1] = this.bars[j];
                         j = j - 1;
                         resolve();
-                    }, 100);
+                    }, this.speed);
                 });
             }
             this.bars[j + 1] = key;

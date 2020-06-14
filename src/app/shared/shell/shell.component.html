@@ -11,7 +11,7 @@
     
         <a mat-list-item routerLink="/" (click)="drawer.close()">Home</a>
         <a mat-list-item routerLink="/sorting" (click)="drawer.close()">Sorting Demo</a>
-        <a mat-list-item routerLink="/pathffinding" (click)="drawer.close()">Pathfinding Demo</a>
+        <a mat-list-item routerLink="/pathfinding" (click)="drawer.close()">Pathfinding Demo</a>
     </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -32,6 +32,7 @@
 
         <span class="fill-space"></span>
         <div *ngIf="!(isHandset$ | async)">
+            <button mat-raised-button (click)="emitSort(true)">SORT</button>
             <a mat-button routerLink="/sorting">Sorting Demo</a>
             <a mat-button routerLink="/pathfinding">Pathfinding Demo</a>
         </div>

@@ -10,16 +10,9 @@ export class BarsComponent implements OnInit {
 
     @Input()
     bar: Bar;
-
-    barStyle: { background: string; height: string; };
-
     constructor() {
     }
 
     ngOnInit() {
-        this.barStyle = {
-            background: this.bar.color,
-            height: `${this.bar.value}%`
-        };
     }
 }

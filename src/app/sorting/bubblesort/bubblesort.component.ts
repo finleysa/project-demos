@@ -26,7 +26,6 @@ export class BubblesortComponent implements OnInit, OnDestroy, AllSorted {
         });
 
         this.sortService.speedChange$.subscribe(speed => {
-            console.log(speed);
             this.speed = speed;
         });
 

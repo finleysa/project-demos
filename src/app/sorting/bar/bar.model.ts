@@ -9,9 +9,13 @@ export class Bar {
         this.barStyle = { background: this.color, height: `${this.value}%` };
     }
 
-    set sorted(val: boolean) {
-        if (val) {
-            this.barStyle = { background: 'red', height: `${this.value}%` };
+    set sorted(val: 'initial' | 'final') {
+        if (val === 'initial') {
+            this.barStyle = { background: 'darkgreen', height: `${this.value}%` };
+        } else if (val === 'final') {
+            this.barStyle = { background: 'limegreen', height: `${this.value}%` };
         }
     }
+
+
 }

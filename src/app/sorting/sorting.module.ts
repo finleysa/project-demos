@@ -5,10 +5,12 @@ import { SortingRoutingModule } from './sorting-routing.module';
 import { BubblesortComponent } from './bubblesort/bubblesort.component';
 import { SharedModule } from '../shared/shared.module';
 import { BarsComponent } from './bar/bar.component';
+import { InsertionsortComponent } from './insertionsort/insertionsort.component';
+import { MergesortComponent } from './mergesort/mergesort.component';
 
 
 @NgModule({
-  declarations: [BubblesortComponent, BarsComponent],
+  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent],
   imports: [
     CommonModule,
     SortingRoutingModule,

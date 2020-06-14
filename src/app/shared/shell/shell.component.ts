@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { SortService } from 'src/app/services/sort.service';
 
 @Component({
   selector: 'app-shell',
@@ -16,7 +17,10 @@ export class ShellComponent {
       shareReplay()
     );
 
+  constructor(private breakpointObserver: BreakpointObserver, private sortService: SortService) {}
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  sort() {
+    this.sortService.sort();
+  }
 
 }

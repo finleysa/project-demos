@@ -7,10 +7,11 @@ import { SharedModule } from '../shared/shared.module';
 import { BarsComponent } from './bar/bar.component';
 import { InsertionsortComponent } from './insertionsort/insertionsort.component';
 import { MergesortComponent } from './mergesort/mergesort.component';
+import { SortingComponent } from './sorting.component';
 
 
 @NgModule({
-  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent],
+  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent, SortingComponent],
   imports: [
     CommonModule,
     SortingRoutingModule,

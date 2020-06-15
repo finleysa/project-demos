@@ -1,0 +1,14 @@
+mat-card {
+    margin-top: 3em;
+    margin-left: 100px;
+    margin-right: 100px;
+
+    mat-card-content {
+        margin-left: 2em;
+        margin-top: 1em;
+
+        button {
+            width: 10em;
+        }
+    }
+}

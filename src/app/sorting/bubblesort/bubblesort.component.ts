@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Bar } from '../bar/bar.model';
 import { SnackService } from 'src/app/services/snack.service';
 import { AllSorted } from '../allsorted.interface';
@@ -9,7 +9,7 @@ import { SortService } from 'src/app/services/sort.service';
     templateUrl: './bubblesort.component.html',
     styleUrls: ['./bubblesort.component.scss']
 })
-export class BubblesortComponent implements OnInit, AllSorted {
+export class BubblesortComponent implements OnInit, OnDestroy, AllSorted {
 
     bars: Bar[] = [];
     speed = 0;
@@ -83,5 +83,10 @@ export class BubblesortComponent implements OnInit, AllSorted {
         for (const bar of bars) {
             bar.sorted = 'final' ;
         }
+    }
+
+    ngOnDestroy() {
+        this.sortService.sortEvent.unsubscribe();
+        this.sortService.resetEvent.unsubscribe();
     }
 }

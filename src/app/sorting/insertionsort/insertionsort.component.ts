@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SnackService } from 'src/app/services/snack.service';
 import { Bar } from '../bar/bar.model';
 import { promise } from 'protractor';
@@ -10,7 +10,7 @@ selector: 'app-insertionsort',
 templateUrl: './insertionsort.component.html',
 styleUrls: ['./insertionsort.component.scss']
 })
-export class InsertionsortComponent implements OnInit, AllSorted {
+export class InsertionsortComponent implements OnInit, OnDestroy, AllSorted {
 
     bars: Bar[] = [];
     speed = 0;
@@ -76,5 +76,10 @@ export class InsertionsortComponent implements OnInit, AllSorted {
         for (const bar of bars) {
             bar.sorted = 'final' ;
         }
+    }
+
+    ngOnDestroy() {
+        this.sortService.sortEvent.unsubscribe();
+        this.sortService.resetEvent.unsubscribe();
     }
 }

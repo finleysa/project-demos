@@ -9,8 +9,8 @@
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
         <a mat-list-item routerLink="/" (click)="drawer.close()">Home</a>
-        <a mat-list-item routerLink="/sorting/bubblesort" (click)="drawer.close()">BubbleSort</a>
-        <a mat-list-item routerLink="/sorting/insertionsort" (click)="drawer.close()">InsertionSort</a>
+        <a mat-list-item routerLink="/sorting/bubblesort" (click)="drawer.close()" routerLinkActive="active">BubbleSort</a>
+        <a mat-list-item routerLink="/sorting/insertionsort" (click)="drawer.close()" routerLinkActive="active">InsertionSort</a>
     </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
@@ -63,6 +63,7 @@
                     (input)="speedValueChanged($event)">
                 </mat-slider>
             </div>
+            <button mat-menu-item (click)="reset()">RESET</button>
             <button mat-menu-item (click)="sort(); drawer.close();">SORT</button>
         </mat-menu>
     </mat-toolbar>

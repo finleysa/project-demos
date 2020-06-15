@@ -30,6 +30,10 @@ export class ShellComponent {
     this.sortService.sort();
   }
 
+  reset() {
+    this.sortService.reset();
+  }
+
   barsValueChanged(event: MatSliderChange) {
     this.sortService.barsChangeEvent(event.value);
   }

@@ -8,6 +8,8 @@ import { Bar } from '../sorting/bar/bar.model';
 export class SortService {
 
   sortEvent = new EventEmitter<boolean>();
+  resetEvent = new EventEmitter<any>();
+
   speedChange$ = new ReplaySubject<number>(1);
   barsChange$ = new ReplaySubject<number>(1);
   bars: Bar[];
@@ -18,6 +20,10 @@ export class SortService {
 
   sort(): void {
     this.sortEvent.emit(true);
+  }
+
+  reset(): void {
+    this.resetEvent.emit();
   }
 
   speedChangeEvent(speed: number) {

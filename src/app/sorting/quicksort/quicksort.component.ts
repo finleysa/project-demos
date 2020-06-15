@@ -17,6 +17,8 @@ export class QuicksortComponent implements OnInit, AllSorted {
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
     ngOnInit(): void {
+        this.reset(this.bars.length);
+
         this.sortService.barsChange$.subscribe((bars: number) => {
             this.reset(bars);
         });
@@ -39,13 +41,11 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
     async partition(arr: Bar[], low: number, high: number) {
         const pivot = arr[high];
-        let i = (low - 1); // index of smaller element
+        let i = (low - 1);
         for (let j = low; j < high; j++) {
-            // If current element is smaller than the pivot
             if (arr[j].value < pivot.value) {
                 i++;
 
-                // swap arr[i] and arr[j]
                 await new Promise(resolve => setTimeout(() => {
                     const temp1 = arr[i];
                     arr[i] = arr[j];
@@ -55,7 +55,6 @@ export class QuicksortComponent implements OnInit, AllSorted {
             }
         }
 
-      // swap arr[i+1] and arr[high] (or pivot)
         await new Promise(resolve => setTimeout(() => {
             const temp2 = arr[i + 1];
             arr[i + 1] = arr[high];
@@ -68,18 +67,11 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
     async sort(arr: Bar[], low, high) {
         if (low < high) {
-            /* pi is partitioning index, arr[pi] is
-                now at right place */
             const pi = await this.partition(arr, low, high);
 
-            // Recursively sort elements before
-            // partition and after partition
             this.sort(arr, low, pi - 1);
             this.sort(arr, pi + 1, high);
-        } else {
-            console.log(low, high);
         }
-
     }
 
     async reset(bars: number) {

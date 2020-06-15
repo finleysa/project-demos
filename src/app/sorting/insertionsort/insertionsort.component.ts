@@ -17,6 +17,8 @@ export class InsertionsortComponent implements OnInit, AllSorted {
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
     ngOnInit(): void {
+        this.reset(this.bars.length);
+
         this.sortService.barsChange$.subscribe(bars => {
             this.reset(bars);
         });
@@ -44,8 +46,6 @@ export class InsertionsortComponent implements OnInit, AllSorted {
     }
 
     async sort() {
-        const startTime = Date.now();
-
         const n = this.bars.length;
         for (let i = 1; i < n; ++i) {
             const key = this.bars[i];
@@ -64,11 +64,6 @@ export class InsertionsortComponent implements OnInit, AllSorted {
         }
 
         this.allSorted(this.bars);
-
-        const endTime = Date.now();
-        const timePassed = endTime - startTime;
-
-        this.snackService.sorted(timePassed);
     }
 
     allSorted(bars: Bar[]) {

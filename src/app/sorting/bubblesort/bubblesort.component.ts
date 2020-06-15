@@ -13,9 +13,7 @@ import { Observable, of } from 'rxjs';
 export class BubblesortComponent implements OnInit, AllSorted {
 
     bars: Bar[];
-    bars$: Observable<Bar[]>;
     speed = 0;
-    cancelSort = true;
 
     constructor(private snackService: SnackService, private sortService: SortService) { }
 
@@ -44,17 +42,12 @@ export class BubblesortComponent implements OnInit, AllSorted {
         for (let i = 0; i < bars; i++) {
             this.bars.push(new Bar());
         }
-        this.bars$ = of(this.bars);
     }
 
     async sort() {
-        this.cancelSort = false;
-        const startTime = Date.now();
-
         const n = this.bars.length;
         for (let i = 0; i < n - 1; i++) {
             for (let j = 0; j < n - i - 1; j++) {
-                if (this.cancelSort) { break; }
                 if (this.bars[j].value > this.bars[j + 1].value) {
                     await new Promise(resolve => setTimeout(() => {
                         this.swap(this.bars, j, j + 1);
@@ -69,11 +62,6 @@ export class BubblesortComponent implements OnInit, AllSorted {
         this.bars[0].sorted = 'initial';
 
         this.allSorted(this.bars);
-
-        const endTime = Date.now();
-        const timePassed = endTime - startTime;
-
-        this.snackService.sorted(timePassed);
     }
 
     swap(arr: any[], firstIndex: number, secondIndex: number) {

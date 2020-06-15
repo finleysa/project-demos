@@ -3,49 +3,46 @@ import { ReplaySubject } from 'rxjs';
 import { Bar } from '../sorting/bar/bar.model';
 
 @Injectable({
-  providedIn: 'root'
+providedIn: 'root'
 })
 export class SortService {
 
-  sortEvent = new EventEmitter<boolean>();
-  resetEvent = new EventEmitter<any>();
+    sortEvent = new EventEmitter<boolean>();
+    resetEvent = new EventEmitter<any>();
 
-  speedChange$ = new ReplaySubject<number>(1);
-  barsChange$ = new ReplaySubject<number>(1);
+    speedChange$ = new ReplaySubject<number>(1);
+    barsChange$ = new ReplaySubject<number>(1);
 
-  bars: Bar[];
+    bars: Bar[];
 
-  // tslint:disable-next-line: variable-name
-  private _sorting = false;
+    // tslint:disable-next-line: variable-name
+    private _sorting = false;
 
-  public get sorting() {
-    return this._sorting;
-  }
-  public set sorting(value) {
-    this._sorting = value;
-  }
-
-  constructor() {
-
-  }
-
-  sort(): void {
-    if (!this.sorting) {
-      this.sortEvent.emit(true);
-      this.sorting = true;
+    public get sorting() {
+        return this._sorting;
     }
-  }
+    public set sorting(value) {
+        this._sorting = value;
+    }
 
-  reset(): void {
-    this.resetEvent.emit();
-    this.sorting = false;
-  }
+    constructor() {
 
-  speedChangeEvent(speed: number) {
-    this.speedChange$.next(speed);
-  }
+    }
 
-  barsChangeEvent(bars: number) {
-    this.barsChange$.next(bars);
-  }
+    sort(): void {
+        this.sortEvent.emit(true);
+    }
+
+    reset(): void {
+        this.resetEvent.emit();
+        this.sorting = false;
+    }
+
+    speedChangeEvent(speed: number) {
+        this.speedChange$.next(speed);
+    }
+
+    barsChangeEvent(bars: number) {
+        this.barsChange$.next(bars);
+    }
 }

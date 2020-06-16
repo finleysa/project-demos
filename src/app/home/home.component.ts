@@ -25,8 +25,4 @@ export class HomeComponent implements OnInit {
         .then(url => this.resumeURL = url)
         .catch(error => console.log(error.code));
     }
-
-    downloadCv() {
-
-    }
 }

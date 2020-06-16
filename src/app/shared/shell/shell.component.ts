@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatSliderChange } from '@angular/material/slider';
 
-import { Observable, Subject } from 'rxjs';
-import { map, shareReplay, filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
 import { SortService } from 'src/app/services/sort.service';
 import { RoutingService } from 'src/app/services/routing.service';
 import { NavigationEnd } from '@angular/router';
@@ -38,9 +38,28 @@ export class ShellComponent implements OnInit {
 
     ngOnInit() {
         this.routerService.navEnd.subscribe((nav: NavigationEnd) => {
+            if (nav.url === '/') {
+                this.title = 'My Portfolio';
+                return;
+            }
+            const splitUrl = nav.url.split('/');
             this.isSortUrl = nav.url.includes('sorting');
-            this.title = this.isSortUrl ? 'Sorting Examples' : 'My Portfolio';
+            const path = splitUrl[splitUrl.length - 1];
+            this.title = this.findTitle(path);
         });
+    }
+
+    findTitle(path: string): string {
+        switch (path) {
+            case 'bubblesort':
+                return 'Bubble Sort';
+            case 'quicksort':
+                return 'Quick Sort';
+            case 'insertionsort':
+                return 'Insertion Sort';
+            default:
+                return 'My Portfolio';
+        }
     }
 
     sort() {

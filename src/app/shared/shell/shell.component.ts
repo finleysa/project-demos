@@ -47,8 +47,6 @@ export class ShellComponent implements OnInit {
                 this.link = '/';
             }
 
-            console.log(this.link);
-
             const splitUrl = nav.url.split('/');
             const path = splitUrl[splitUrl.length - 1];
             this.title = this.findTitle(path);

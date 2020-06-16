@@ -26,10 +26,11 @@
 
             <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
-        <span class="logo" routerLink="/">{{title}}</span>
+        <span class="logo" [routerLink]="link">{{title}}</span>
 
         <span class="fill-space"></span>
         <div *ngIf="!(isHandset$ | async)">
+            <a mat-button *ngIf="notHomePath" routerLink="/">Home</a>
             <a mat-button routerLink="/sorting" routerLinkActive="active">Sorting</a>
             <a mat-button routerLink="/pathfinding" routerLinkActive="active">Pathfinding</a>
         </div>

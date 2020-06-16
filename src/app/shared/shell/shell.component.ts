@@ -20,6 +20,7 @@ export class ShellComponent implements OnInit {
 
     isSortUrl = false;
     title: string;
+    link: string;
 
     isHandset$: Observable<boolean> = this.breakpointObserver.observe([Breakpoints.Handset])
         .pipe(
@@ -38,12 +39,17 @@ export class ShellComponent implements OnInit {
 
     ngOnInit() {
         this.routerService.navEnd.subscribe((nav: NavigationEnd) => {
-            if (nav.url === '/') {
-                this.title = 'My Portfolio';
-                return;
+            if (nav.url.includes('sorting')) {
+                this.link = '/sorting';
+            } else if (nav.url.includes('pathfinding')) {
+                this.link = '/pathfinding';
+            } else {
+                this.link = '/';
             }
+
+            console.log(this.link);
+
             const splitUrl = nav.url.split('/');
-            this.isSortUrl = nav.url.includes('sorting');
             const path = splitUrl[splitUrl.length - 1];
             this.title = this.findTitle(path);
         });
@@ -51,12 +57,18 @@ export class ShellComponent implements OnInit {
 
     findTitle(path: string): string {
         switch (path) {
+            // SORTING
+            case 'sorting':
+                return 'Sorting';
             case 'bubblesort':
                 return 'Bubble Sort';
             case 'quicksort':
                 return 'Quick Sort';
             case 'insertionsort':
                 return 'Insertion Sort';
+            // PATHFINDING
+            case 'pathfinding':
+                return 'Pathfinding';
             default:
                 return 'My Portfolio';
         }
@@ -76,5 +88,9 @@ export class ShellComponent implements OnInit {
 
     speedValueChanged(event: MatSliderChange) {
         this.sortService.speedChangeEvent(event.value);
+    }
+
+    get notHomePath() {
+        return this.link !== '/';
     }
 }

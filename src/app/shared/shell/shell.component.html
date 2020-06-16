@@ -49,7 +49,8 @@
                     min="5"
                     max="100"
                     [value]="barsValue"
-                    (input)="barsValueChanged($event)">
+                    (input)="barsValueChanged($event)"
+                    (click)="$event.stopPropagation()">
                 </mat-slider>
             </div>
             <div mat-menu-item>
@@ -60,10 +61,11 @@
                     max="100"
                     invert="true"
                     [value]="speedValue"
-                    (input)="speedValueChanged($event)">
+                    (input)="speedValueChanged($event)"
+                    (click)="$event.stopPropagation()">
                 </mat-slider>
             </div>
-            <button mat-menu-item (click)="reset()">RESET</button>
+            <button mat-menu-item (click)="reset(); $event.stopPropagation();">RESET</button>
             <button mat-menu-item (click)="sort(); drawer.close();">SORT</button>
         </mat-menu>
     </mat-toolbar>

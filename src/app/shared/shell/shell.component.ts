@@ -39,6 +39,7 @@ export class ShellComponent implements OnInit {
 
     ngOnInit() {
         this.routerService.navEnd.subscribe((nav: NavigationEnd) => {
+            this.isSortUrl = nav.url.includes('sorting');
             if (nav.url.includes('sorting')) {
                 this.link = '/sorting';
             } else if (nav.url.includes('pathfinding')) {
@@ -46,7 +47,6 @@ export class ShellComponent implements OnInit {
             } else {
                 this.link = '/';
             }
-
             const splitUrl = nav.url.split('/');
             const path = splitUrl[splitUrl.length - 1];
             this.title = this.findTitle(path);

@@ -8,6 +8,10 @@ const routes: Routes = [
   {
     path: 'sorting',
     loadChildren: () => import('./sorting/sorting.module').then(m => m.SortingModule)
+  },
+  {
+    path: 'pathfinding',
+    loadChildren: () => import('./pathfinding/pathfinding.module').then(m => m.PathfindingModule)
   }
 ];
 

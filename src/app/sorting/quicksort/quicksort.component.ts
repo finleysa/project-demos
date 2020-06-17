@@ -1,45 +1,67 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SnackService } from 'src/app/services/snack.service';
 import { SortService } from 'src/app/services/sort.service';
 import { Bar } from '../bar/bar.model';
-import { AllSorted } from '../allsorted.interface';
+import { ISortComponent } from '../sorting.interface';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-quicksort',
     templateUrl: './quicksort.component.html',
     styleUrls: ['./quicksort.component.scss']
 })
-export class QuicksortComponent implements OnInit, AllSorted {
+export class QuicksortComponent implements OnInit, OnDestroy, ISortComponent {
 
     bars: Bar[] = [];
     speed = 0;
     cancelSort = false;
+    readonly onDestroy = new Subject<void>();
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
     ngOnInit(): void {
-        this.reset(this.bars.length);
+        this.sortSubscriptions();
+    }
 
-        this.sortService.barsChange$.subscribe((bars: number) => {
-            this.reset(bars);
+    async sortSubscriptions() {
+        this.sortService.barsChange$
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(num => {
+            this.reset(num);
         });
 
-        this.sortService.speedChange$.subscribe((speed: number) => {
+        this.sortService.speedChange$
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(speed => {
             this.speed = speed;
         });
 
-        this.sortService.sortEvent.subscribe((bool: boolean) => {
+        this.sortService.sortEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe((bool: boolean) => {
             if (bool) {
+                // const startTime = Date.now();
                 const n = this.bars.length;
                 this.sort(this.bars, 0, n - 1);
+                // .then((val: boolean) => {
+                //     if (val) {
+                //         this.allSorted(this.bars);
+                //         this.snackService.sorted(Date.now() - startTime);
+                //     }
+                // });
             }
         });
 
-        this.sortService.resetEvent.subscribe(() => {
+        this.sortService.resetEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(() => {
             this.reset(this.bars.length);
         });
 
-        this.sortService.cancelSortEvent.subscribe((val: boolean) => {
+        this.sortService.cancelSortEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe((val: boolean) => {
             this.cancelSort = val;
         });
     }
@@ -70,7 +92,7 @@ export class QuicksortComponent implements OnInit, AllSorted {
         return i + 1;
     }
 
-    async sort(arr: Bar[], low, high) {
+    async sort(arr: Bar[], low: number, high: number) {
         if (low < high) {
             if (this.cancelSort) { return; }
             const pi = await this.partition(arr, low, high);
@@ -78,6 +100,7 @@ export class QuicksortComponent implements OnInit, AllSorted {
             this.sort(arr, low, pi - 1);
             this.sort(arr, pi + 1, high);
         }
+        console.log(low, high);
     }
 
     async reset(bars: number) {
@@ -92,5 +115,9 @@ export class QuicksortComponent implements OnInit, AllSorted {
             bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next();
     }
 }

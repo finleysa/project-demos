@@ -1,33 +1,39 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SnackService } from 'src/app/services/snack.service';
 import { Bar } from '../bar/bar.model';
-import { AllSorted } from '../allsorted.interface';
 import { SortService } from 'src/app/services/sort.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { ISortComponent } from '../sorting.interface';
 
 @Component({
 selector: 'app-insertionsort',
 templateUrl: './insertionsort.component.html',
 styleUrls: ['./insertionsort.component.scss']
 })
-export class InsertionsortComponent implements OnInit, OnDestroy, AllSorted {
+export class InsertionsortComponent implements OnInit, OnDestroy, ISortComponent {
 
     bars: Bar[] = [];
     speed = 0;
     cancelSort = false;
-    private readonly onDestroy = new Subject<void>();
+    readonly onDestroy = new Subject<void>();
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
     ngOnInit(): void {
-        this.reset(this.bars.length);
+        this.sortSubscriptions();
+    }
 
-        this.sortService.barsChange$.subscribe(bars => {
-            this.reset(bars);
+    async sortSubscriptions() {
+        this.sortService.barsChange$
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(num => {
+            this.reset(num);
         });
 
-        this.sortService.speedChange$.subscribe(speed => {
+        this.sortService.speedChange$
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(speed => {
             this.speed = speed;
         });
 
@@ -46,18 +52,22 @@ export class InsertionsortComponent implements OnInit, OnDestroy, AllSorted {
             }
         });
 
-        this.sortService.resetEvent.subscribe(() => {
+        this.sortService.resetEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe(() => {
             this.reset(this.bars.length);
         });
 
-        this.sortService.cancelSortEvent.subscribe((val: boolean) => {
+        this.sortService.cancelSortEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe((val: boolean) => {
             this.cancelSort = val;
         });
     }
 
-    async reset(bars: number) {
+    async reset(num: number) {
         this.bars = [];
-        for (let i = 0; i < bars; i++) {
+        for (let i = 0; i < num; i++) {
             this.bars.push(new Bar());
         }
     }

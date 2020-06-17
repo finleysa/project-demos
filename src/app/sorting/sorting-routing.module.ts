@@ -5,6 +5,7 @@ import { InsertionsortComponent } from './insertionsort/insertionsort.component'
 import { SortingComponent } from './sorting.component';
 import { HomeComponent } from '../home/home.component';
 import { QuicksortComponent } from './quicksort/quicksort.component';
+import { RadixsortComponent } from './radixsort/radixsort.component';
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'bubblesort', component: BubblesortComponent },
   { path: 'insertionsort', component: InsertionsortComponent },
   { path: 'quicksort', component: QuicksortComponent },
+  { path: 'radixsort', component: RadixsortComponent },
   { path: '**', component: HomeComponent},
 
 ];

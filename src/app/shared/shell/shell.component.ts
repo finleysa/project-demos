@@ -61,7 +61,7 @@ export class ShellComponent implements OnInit {
             case 'bubblesort':
                 return 'Bubble Sort';
             case 'quicksort':
-                return 'Quick Sort';
+                return 'Quicksort';
             case 'insertionsort':
                 return 'Insertion Sort';
             // PATHFINDING

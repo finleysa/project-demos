@@ -14,6 +14,7 @@ export class BubblesortComponent implements OnInit, AllSorted {
 
     bars: Bar[];
     speed = 0;
+    cancelSort = false;
 
     constructor(private snackService: SnackService, private sortService: SortService) { }
 
@@ -35,6 +36,10 @@ export class BubblesortComponent implements OnInit, AllSorted {
         this.sortService.resetEvent.subscribe(() => {
             this.reset(this.bars.length);
         });
+
+        this.sortService.cancelSortEvent.subscribe((val: boolean) => {
+            this.cancelSort = val;
+        });
     }
 
     async reset(bars: number) {
@@ -46,8 +51,10 @@ export class BubblesortComponent implements OnInit, AllSorted {
 
     async sort() {
         const n = this.bars.length;
+
         for (let i = 0; i < n - 1; i++) {
             for (let j = 0; j < n - i - 1; j++) {
+                if (this.cancelSort) { return; }
                 if (this.bars[j].value > this.bars[j + 1].value) {
                     await new Promise(resolve => setTimeout(() => {
                         this.swap(this.bars, j, j + 1);

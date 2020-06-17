@@ -9,6 +9,7 @@ export class SortService {
 
     sortEvent = new EventEmitter<boolean>();
     resetEvent = new EventEmitter<any>();
+    cancelSortEvent = new EventEmitter<boolean>();
 
     speedChange$ = new ReplaySubject<number>(1);
     barsChange$ = new ReplaySubject<number>(1);
@@ -30,11 +31,13 @@ export class SortService {
     }
 
     sort(): void {
+        this.cancelSort(false);
         this.sortEvent.emit(true);
     }
 
     reset(): void {
         this.resetEvent.emit();
+        this.cancelSort(true);
         this.sorting = false;
     }
 
@@ -43,6 +46,11 @@ export class SortService {
     }
 
     barsChangeEvent(bars: number) {
+        this.cancelSort(true);
         this.barsChange$.next(bars);
+    }
+
+    private cancelSort(val: boolean): void {
+        this.cancelSortEvent.emit(val);
     }
 }

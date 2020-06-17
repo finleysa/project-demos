@@ -9,10 +9,11 @@ import { InsertionsortComponent } from './insertionsort/insertionsort.component'
 import { MergesortComponent } from './mergesort/mergesort.component';
 import { SortingComponent } from './sorting.component';
 import { QuicksortComponent } from './quicksort/quicksort.component';
+import { RadixsortComponent } from './radixsort/radixsort.component';
 
 
 @NgModule({
-  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent, SortingComponent, QuicksortComponent],
+  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent, SortingComponent, QuicksortComponent, RadixsortComponent],
   imports: [
     CommonModule,
     SortingRoutingModule,

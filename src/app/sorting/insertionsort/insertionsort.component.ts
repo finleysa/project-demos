@@ -13,6 +13,7 @@ export class InsertionsortComponent implements OnInit, AllSorted {
 
     bars: Bar[] = [];
     speed = 0;
+    cancelSort = false;
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
@@ -27,14 +28,18 @@ export class InsertionsortComponent implements OnInit, AllSorted {
             this.speed = speed;
         });
 
-        this.sortService.sortEvent.subscribe((bool: boolean) => {
-            if (bool) {
+        this.sortService.sortEvent.subscribe((val: boolean) => {
+            if (val) {
                 this.sort();
             }
         });
 
         this.sortService.resetEvent.subscribe(() => {
             this.reset(this.bars.length);
+        });
+
+        this.sortService.cancelSortEvent.subscribe((val: boolean) => {
+            this.cancelSort = val;
         });
     }
 
@@ -48,6 +53,7 @@ export class InsertionsortComponent implements OnInit, AllSorted {
     async sort() {
         const n = this.bars.length;
         for (let i = 1; i < n; ++i) {
+            if (this.cancelSort) { return; }
             const key = this.bars[i];
             let j = i - 1;
 

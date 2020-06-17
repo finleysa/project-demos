@@ -13,6 +13,7 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
     bars: Bar[] = [];
     speed = 0;
+    cancelSort = false;
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
@@ -36,6 +37,10 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
         this.sortService.resetEvent.subscribe(() => {
             this.reset(this.bars.length);
+        });
+
+        this.sortService.cancelSortEvent.subscribe((val: boolean) => {
+            this.cancelSort = val;
         });
     }
 
@@ -67,6 +72,7 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
     async sort(arr: Bar[], low, high) {
         if (low < high) {
+            if (this.cancelSort) { return; }
             const pi = await this.partition(arr, low, high);
 
             this.sort(arr, low, pi - 1);

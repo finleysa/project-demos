@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class SnackService {
   constructor(private snackBar: MatSnackBar, private router: Router) {}
 
-  sorted(msTime?: number) {
+  sorted(msTime?: number | null) {
     if (msTime) {
       const seconds = Math.round(msTime / 1000);
       if (seconds <= 0) { return; }
@@ -16,7 +16,7 @@ export class SnackService {
         duration: 3000
       });
     } else {
-      this.snackBar.open('Sort Canceled', null, {
+      this.snackBar.open('Sort Cancelled', null, {
         duration: 3000
       });
     }

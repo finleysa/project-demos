@@ -29,7 +29,16 @@ export class BubblesortComponent implements OnInit, AllSorted {
 
         this.sortService.sortEvent.subscribe((bool: boolean) => {
             if (bool) {
-                this.sort();
+                const startTime = Date.now();
+                this.sort()
+                .then((val: boolean) => {
+                    if (val) {
+                        this.allSorted(this.bars);
+                        this.snackService.sorted(Date.now() - startTime);
+                    } else {
+                        this.snackService.sorted(null);
+                    }
+                });
             }
         });
 
@@ -54,7 +63,7 @@ export class BubblesortComponent implements OnInit, AllSorted {
 
         for (let i = 0; i < n - 1; i++) {
             for (let j = 0; j < n - i - 1; j++) {
-                if (this.cancelSort) { return; }
+                if (this.cancelSort) { return false; }
                 if (this.bars[j].value > this.bars[j + 1].value) {
                     await new Promise(resolve => setTimeout(() => {
                         this.swap(this.bars, j, j + 1);
@@ -62,13 +71,13 @@ export class BubblesortComponent implements OnInit, AllSorted {
                     }, this.speed));
                 }
                 if (j === n - i - 2) {
-                    this.bars[j + 1].sorted = 'initial';
+                    this.bars[j + 1].sortedCondition = 'initial';
                 }
             }
         }
-        this.bars[0].sorted = 'initial';
+        this.bars[0].sortedCondition = 'initial';
 
-        this.allSorted(this.bars);
+        return true;
     }
 
     swap(arr: any[], firstIndex: number, secondIndex: number) {
@@ -79,7 +88,7 @@ export class BubblesortComponent implements OnInit, AllSorted {
 
     allSorted(bars: Bar[]) {
         for (const bar of bars) {
-            bar.sorted = 'final' ;
+            bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
     }

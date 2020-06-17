@@ -89,7 +89,7 @@ export class QuicksortComponent implements OnInit, AllSorted {
 
     allSorted(bars: Bar[]) {
         for (const bar of bars) {
-            bar.sorted = 'final' ;
+            bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
     }

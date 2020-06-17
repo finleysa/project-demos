@@ -30,7 +30,17 @@ export class InsertionsortComponent implements OnInit, AllSorted {
 
         this.sortService.sortEvent.subscribe((val: boolean) => {
             if (val) {
-                this.sort();
+                const startTime = Date.now();
+                this.sort()
+                .then((sorted: boolean) => {
+                    if (sorted) {
+                        this.allSorted(this.bars);
+                        this.snackService.sorted(Date.now() - startTime);
+                    } else {
+                        this.snackService.sorted(null) ;
+                    }
+
+                });
             }
         });
 
@@ -53,7 +63,7 @@ export class InsertionsortComponent implements OnInit, AllSorted {
     async sort() {
         const n = this.bars.length;
         for (let i = 1; i < n; ++i) {
-            if (this.cancelSort) { return; }
+            if (this.cancelSort) { return false; }
             const key = this.bars[i];
             let j = i - 1;
 
@@ -68,13 +78,12 @@ export class InsertionsortComponent implements OnInit, AllSorted {
             }
             this.bars[j + 1] = key;
         }
-
-        this.allSorted(this.bars);
+        return true;
     }
 
     allSorted(bars: Bar[]) {
         for (const bar of bars) {
-            bar.sorted = 'final' ;
+            bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
     }

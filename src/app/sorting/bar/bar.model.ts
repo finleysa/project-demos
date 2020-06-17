@@ -9,7 +9,7 @@ export class Bar {
         this.barStyle = { background: this.color, height: `${this.value}%` };
     }
 
-    set sorted(val: 'initial' | 'final') {
+    set sortedCondition(val: 'initial' | 'final') {
         if (val === 'initial') {
             this.barStyle = { background: 'darkgreen', height: `${this.value}%` };
         } else if (val === 'final') {

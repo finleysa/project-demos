@@ -6,14 +6,20 @@ import { BubblesortComponent } from './bubblesort/bubblesort.component';
 import { SharedModule } from '../shared/shared.module';
 import { BarsComponent } from './bar/bar.component';
 import { InsertionsortComponent } from './insertionsort/insertionsort.component';
-import { MergesortComponent } from './mergesort/mergesort.component';
 import { SortingComponent } from './sorting.component';
 import { QuicksortComponent } from './quicksort/quicksort.component';
 import { RadixsortComponent } from './radixsort/radixsort.component';
 
 
 @NgModule({
-  declarations: [BubblesortComponent, BarsComponent, InsertionsortComponent, MergesortComponent, SortingComponent, QuicksortComponent, RadixsortComponent],
+  declarations: [
+    BubblesortComponent,
+    BarsComponent,
+    InsertionsortComponent,
+    SortingComponent,
+    QuicksortComponent,
+    RadixsortComponent
+  ],
   imports: [
     CommonModule,
     SortingRoutingModule,

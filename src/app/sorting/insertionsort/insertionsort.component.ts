@@ -1,19 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SnackService } from 'src/app/services/snack.service';
 import { Bar } from '../bar/bar.model';
 import { AllSorted } from '../allsorted.interface';
 import { SortService } from 'src/app/services/sort.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
 selector: 'app-insertionsort',
 templateUrl: './insertionsort.component.html',
 styleUrls: ['./insertionsort.component.scss']
 })
-export class InsertionsortComponent implements OnInit, AllSorted {
+export class InsertionsortComponent implements OnInit, OnDestroy, AllSorted {
 
     bars: Bar[] = [];
     speed = 0;
     cancelSort = false;
+    private readonly onDestroy = new Subject<void>();
 
     constructor(private snackService: SnackService, private sortService: SortService) {}
 
@@ -28,15 +31,17 @@ export class InsertionsortComponent implements OnInit, AllSorted {
             this.speed = speed;
         });
 
-        this.sortService.sortEvent.subscribe((val: boolean) => {
-            if (val) {
+        this.sortService.sortEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe((bool: boolean) => {
+            if (bool) {
                 const startTime = Date.now();
                 this.sort()
-                .then((sorted: boolean) => {
-                    if (sorted) {
+                .then((val: boolean) => {
+                    if (val) {
                         this.allSorted(this.bars);
+                        this.snackService.sorted(Date.now() - startTime);
                     }
-
                 });
             }
         });
@@ -83,5 +88,9 @@ export class InsertionsortComponent implements OnInit, AllSorted {
             bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next();
     }
 }

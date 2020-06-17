@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Bar } from '../bar/bar.model';
 import { SnackService } from 'src/app/services/snack.service';
 import { AllSorted } from '../allsorted.interface';
 import { SortService } from 'src/app/services/sort.service';
-import { Observable, of } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-bubblesort',
     templateUrl: './bubblesort.component.html',
     styleUrls: ['./bubblesort.component.scss']
 })
-export class BubblesortComponent implements OnInit, AllSorted {
+export class BubblesortComponent implements OnInit, OnDestroy, AllSorted {
 
     bars: Bar[];
     speed = 0;
     cancelSort = false;
+    private readonly onDestroy = new Subject<void>();
 
     constructor(private snackService: SnackService, private sortService: SortService) { }
 
@@ -27,13 +29,16 @@ export class BubblesortComponent implements OnInit, AllSorted {
             this.speed = speed;
         });
 
-        this.sortService.sortEvent.subscribe((bool: boolean) => {
+        this.sortService.sortEvent
+        .pipe(takeUntil(this.onDestroy))
+        .subscribe((bool: boolean) => {
             if (bool) {
                 const startTime = Date.now();
                 this.sort()
                 .then((val: boolean) => {
                     if (val) {
                         this.allSorted(this.bars);
+                        this.snackService.sorted(Date.now() - startTime);
                     }
                 });
             }
@@ -88,5 +93,9 @@ export class BubblesortComponent implements OnInit, AllSorted {
             bar.sortedCondition = 'final' ;
         }
         this.sortService.sorting = false;
+    }
+
+    ngOnDestroy(): void {
+        this.onDestroy.next();
     }
 }

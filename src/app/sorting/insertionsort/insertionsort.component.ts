@@ -35,9 +35,6 @@ export class InsertionsortComponent implements OnInit, AllSorted {
                 .then((sorted: boolean) => {
                     if (sorted) {
                         this.allSorted(this.bars);
-                        this.snackService.sorted(Date.now() - startTime);
-                    } else {
-                        this.snackService.sorted(null) ;
                     }
 
                 });

@@ -89,13 +89,9 @@ export class QuicksortComponent implements OnInit, OnDestroy, ISortComponent {
             }
         }
 
-        // swap arr[i+1] and arr[high] (or pivot)
-        await new Promise(resolve => setTimeout(() => {
-            const tempTwo = arr[i + 1];
-            arr[i + 1] = arr[high];
-            arr[high] = tempTwo;
-            resolve();
-        }, this.speed));
+        const tempTwo = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = tempTwo;
 
         return i + 1;
     }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UrlSegment, Router, NavigationEnd, Navigation } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { ReplaySubject } from 'rxjs';
 
 @Injectable({

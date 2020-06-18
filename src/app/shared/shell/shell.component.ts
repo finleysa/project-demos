@@ -42,10 +42,9 @@ export class ShellComponent implements OnInit {
             this.isSortUrl = nav.url.includes('sorting');
             if (nav.url.includes('sorting')) {
                 this.link = '/sorting';
-            } else if (nav.url.includes('pathfinding')) {
-                this.link = '/pathfinding';
             } else {
-                this.link = '/';
+                this.link = nav.url.includes('pathfinding') ? '/pathfinding' : '/';
+                this.sortService.reset();
             }
             const splitUrl = nav.url.split('/');
             const path = splitUrl[splitUrl.length - 1];

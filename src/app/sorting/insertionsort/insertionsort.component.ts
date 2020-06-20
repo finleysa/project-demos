@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SnackService } from 'src/app/services/snack.service';
 import { Bar } from '../bar/bar.model';
 import { SortService } from 'src/app/services/sort.service';
-import { takeUntil } from 'rxjs/operators';
+import { takeUntil, debounceTime } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ISortComponent } from '../sorting.interface';
 
@@ -26,7 +26,10 @@ export class InsertionsortComponent implements OnInit, OnDestroy, ISortComponent
 
     async sortSubscriptions() {
         this.sortService.barsChange$
-        .pipe(takeUntil(this.onDestroy))
+        .pipe(
+            debounceTime(250),
+            takeUntil(this.onDestroy)
+        )
         .subscribe(num => {
             this.reset(num);
         });

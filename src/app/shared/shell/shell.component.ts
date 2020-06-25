@@ -40,10 +40,10 @@ export class ShellComponent implements OnInit {
     ngOnInit() {
         this.routerService.navEnd.subscribe((nav: NavigationEnd) => {
             this.isSortUrl = nav.url.includes('sorting');
-            if (nav.url.includes('sorting')) {
-                this.link = '/sorting';
+            if (nav.url !== '/') {
+                this.link = '';
             } else {
-                this.link = nav.url.includes('pathfinding') ? '/pathfinding' : '/';
+                this.link = nav.url;
                 this.sortService.reset();
             }
             const splitUrl = nav.url.split('/');
@@ -66,6 +66,9 @@ export class ShellComponent implements OnInit {
             // PATHFINDING
             case 'pathfinding':
                 return 'Pathfinding';
+            // Map
+            case 'map':
+                return 'Leaflet Map';
             default:
                 return 'My Portfolio';
         }
@@ -88,6 +91,7 @@ export class ShellComponent implements OnInit {
     }
 
     get notHomePath() {
+        console.log(this.link);
         return this.link !== '/';
     }
 }

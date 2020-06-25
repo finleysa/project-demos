@@ -12,7 +12,12 @@ const routes: Routes = [
   {
     path: 'pathfinding',
     loadChildren: () => import('./pathfinding/pathfinding.module').then(m => m.PathfindingModule)
-  }
+  },
+  {
+    path: 'map',
+    loadChildren: () => import('./map/map.module').then(m => m.MapModule),
+  },
+  { path: '**', component: HomeComponent }
 ];
 
 @NgModule({

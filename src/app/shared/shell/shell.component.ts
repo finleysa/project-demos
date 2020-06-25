@@ -91,7 +91,6 @@ export class ShellComponent implements OnInit {
     }
 
     get notHomePath() {
-        console.log(this.link);
         return this.link !== '/';
     }
 }

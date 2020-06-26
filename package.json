@@ -25,6 +25,7 @@
     "@angular/router": "~9.1.11",
     "firebase": "^7.15.1",
     "leaflet": "^1.6.0",
+    "mapbox-gl": "^1.11.0",
     "rxjs": "~6.5.5",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

@@ -1,5 +1,4 @@
 main {
-    padding: 3rem;
     min-height: calc(100vh - 40px);
 
     .icons {
@@ -22,5 +21,18 @@ main {
 
     #about {
         margin-top: 3em;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    main {
+        padding: 1rem;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    main {
+        padding-left: 12em;
+        padding-right: 12em;
     }
 }

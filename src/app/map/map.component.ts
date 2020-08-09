@@ -1,6 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
 import * as L from 'leaflet';
-import { environment } from '../../environments/environment';
 import { statesData } from './us-states';
 
 @Component({
@@ -14,7 +13,7 @@ export class MapComponent implements AfterViewInit {
 
     map: any;
     tiles: any;
-    mapboxAccessToken = environment.mapboxConfig.apiKey;
+    mapboxAccessToken = "environment.mapboxConfig.apiKey";
 
     ngAfterViewInit(): void {
         this.initMap()

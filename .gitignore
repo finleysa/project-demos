@@ -50,4 +50,4 @@ Thumbs.db
 .firebase
 .firebasesrc
 firebase.json
-src/environments
+src/environments/*
